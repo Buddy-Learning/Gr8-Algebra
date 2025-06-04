@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buddy Learning - Grade 8 Algebra Fun Quiz</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    .logo-space {
+      width: 150px;
+      height: 150px;
+      margin: auto;
+      background-color: #f9c74f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .logo-space img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    .question-box {
+      display: none;
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .question-box.active {
+      display: block;
+    }
+    .question-box input {
+      margin-top: 10px;
+      padding: 10px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #90be6d;
+      color: white;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .score-board {
+      margin-top: 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #264653;
+    }
+    .hint {
+      font-style: italic;
+      color: #555;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-space">
+    <img src="https://assets.onecompiler.app/434dtae6m/434yww6sp/download.jpg" alt="Buddy Learning Logo">
+  </div>
+
+  <h1>Grade 8 Algebra Revision! 🎉</h1>
+  <p>Answer each question correctly to unlock the next one. Let the brain workout begin! 💪🧠</p>
+  <p class="hint">Hint: Use <code>^</code> to write powers. For example: <strong>m^3</strong> means m to the power of 3.</p>
+
+  <div class="question-box active" id="question1">
+    <p><strong>Q1:</strong> Simplify: 4a + 3b - 2a - b</p>
+    <p class="hint">Use <code>"^"</code> for powers. Example: 2b^2 + 7n</p>
+    <input type="text" id="answer1" placeholder="Your answer here...">
+    <button onclick="checkAnswer('1', '2a+2b')">Submit</button>
+    <div class="feedback" id="feedback1"></div>
+  </div>
+
+  <div class="score-board" id="scoreBoard">Score: 0 / 20</div>
+
+  <script>
+    const attempts = {};
+    let currentQuestion = 1;
+    const totalQuestions = 20;
+    let correctAnswers = 0;
+
+    function checkAnswer(qNum, correctAns) {
+      const userAns = document.getElementById('answer' + qNum).value.replace(/\s/g, '');
+      const correct = correctAns.replace(/\s/g, '');
+      attempts[qNum] = (attempts[qNum] || 0) + 1;
+
+      const feedbackEl = document.getElementById('feedback' + qNum);
+
+      if (userAns.toLowerCase() === correct.toLowerCase()) {
+        feedbackEl.style.color = 'green';
+        if (!feedbackEl.classList.contains('answered')) {
+          correctAnswers++;
+          updateScore();
+          feedbackEl.classList.add('answered');
+        }
+        feedbackEl.innerHTML = `✅ Correct after ${attempts[qNum]} try(ies)! <br><button onclick="showNext(${parseInt(qNum) + 1})">Next Question 🚀</button>`;
+      } else {
+        feedbackEl.style.color = 'red';
+        feedbackEl.innerHTML = `❌ Nope! Try again. Attempts: ${attempts[qNum]}`;
+      }
+    }
+
+    function showNext(nextNum) {
+      const currentBox = document.getElementById('question' + currentQuestion);
+      const nextBox = document.getElementById('question' + nextNum);
+      if (currentBox) currentBox.classList.remove('active');
+      if (nextBox) {
+        nextBox.classList.add('active');
+        currentQuestion = nextNum;
+      } else {
+        document.body.innerHTML += `<h2>🎉 You finished all the questions! Your final score is ${correctAnswers} out of ${totalQuestions}. Well done, math master! 🧠👑</h2>`;
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('scoreBoard').textContent = `Score: ${correctAnswers} / ${totalQuestions}`;
+    }
+
+    const questions = [
+      { q: 'Simplify: 8m^3 + 6n − 3m^3 + 8n', a: '5m^3+14n' },
+      { q: 'Simplify: 4p^2 + 8p^4 + 2p', a: '4p^2+8p^4+2p' },
+      { q: 'Simplify: 25a − 30b + 3a − 3b', a: '28a−33b' },
+      { q: 'Simplify: 4y^2 + 8y^4 + 4y^2 − 4y^4', a: '8y^2+4y^4' },
+      { q: '3 × b + 2', a: '3b+2' },
+      { q: '7k + 4m^2 − 2k + 10m^2', a: '5k+14m^2' },
+      { q: '40m − 22n + 3m − 10n', a: '43m−32n' },
+      { q: '15p^4 + 9p^2 − 3p^3 + 4p^2', a: '15p^4−3p^3+13p^2' },
+      { q: '40f^6 + 22f^5 − 13f^6', a: '27f^6+22f^5' },
+      { q: '4d + 3a^2 + d − a^2', a: '5d+2a^2' },
+      { q: 'Evaluate: 6x for x=2', a: '12' },
+      { q: 'Evaluate: 6x for x=10', a: '60' },
+      { q: 'Evaluate: 3x + 4 for x=2', a: '10' },
+      { q: 'Evaluate: 3x + 4 for x=10', a: '34' },
+      { q: 'Evaluate: 2x + 3x + 2 for x=2', a: '12' },
+      { q: 'Evaluate: 2x + 3x + 2 for x=10', a: '52' },
+      { q: 'If x = 3, y = 4: (3x + 4y)^2 + (x + y)^2 + 24xy', a: '625' },
+      { q: 'If p=4, q=2: √p(12p + 7q) − q(3p + 4q)', a: '32' },
+      { q: 'x small boxes (5 balls each), y large boxes (10 balls each). Expression?', a: '5x+10y' },
+      { q: 'Simplify: 5a + 2b - 3a + 4b', a: '2a+6b' }
+    ];
+
+    questions.forEach((item, index) => {
+      const num = index + 2;
+      const box = document.createElement('div');
+      box.className = 'question-box';
+      box.id = 'question' + num;
+      box.innerHTML = `
+        <p><strong>Q${num}:</strong> ${item.q}</p>
+        <p class="hint">Use <code>^</code> for powers. Example: 2b^2 + 7n</p>
+        <input type="text" id="answer${num}" placeholder="Your answer here...">
+        <button onclick="checkAnswer('${num}', '${item.a}')">Submit</button>
+        <div class="feedback" id="feedback${num}"></div>
+      `;
+      document.body.appendChild(box);
+    });
+  </script>
+</body>
+</html>
